@@ -1,0 +1,217 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Tables Data {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %} 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Table Orders</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Table Orders</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+
+    </section>   
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <h3 class="card-title">Table Orders</h3>
+            <h3 class="card-title text-break">Total <span class="text-info font-weight-bold">$ {{orders.subtotal}}</span></h3>
+            
+          </div>
+          <!-- ./card-header -->
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>                  
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Quantity</th>        
+                    <th>Price</th>                
+                    <th>Status</th>   
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders.orders %}
+                <tr data-widget="expandable-table" aria-expanded="false">
+                    <td>{{order.username}}</td>
+                    <td>{{order.email}}</td>
+                    <td>{{order.updated}}</td>
+                    <td>
+                      {% for user in  orders.user_order %}
+                      {% if user.id == order.id %}
+                      {{user.count}}
+                      {% endif %}
+                      {% endfor %}
+                    </td>        
+                    <td>$
+                      {% for user in  orders.user_order %}
+                      {% if user.id == order.id %}
+                      {{user.total}}
+                      {% endif %}
+                      {% endfor %}
+                    </td>                
+                    <td>
+                      <form method="post" action="{% url 'home:change_status' id=order.id %}">
+                        {% csrf_token %}
+                        {% if order.status == "In Progress" %}
+                        <button type="submit" class="btn btn-block btn-outline-danger">{{order.status}}</button>
+                        {% elif order.status == "Accepted" %}
+                        <button type="submit" class="btn btn-block btn-outline-secondary">{{order.status}}</button>
+                        {% elif order.status == "Shipped" %}
+                        <button type="submit" class="btn btn-block btn-outline-primary">{{order.status}}</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-block btn-outline-success">{{order.status}}</button>
+                        {% endif %}
+                        
+                    </form>
+                      <!-- {{order.get_status_display}} -->
+                      <!-- <div class="btn-group">
+                        <button type="button" class="btn btn-info">{{order.status}}</button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
+                          < <span class="sr-only">Toggle Dropdown</span> -->
+                        <!-- </button>
+                        <div class="dropdown-menu" role="menu">
+                          <a class="dropdown-item" href="#">Accepted</a>
+                          <a class="dropdown-item" href="#">Shipped</a>
+                          <a class="dropdown-item" href="#">Completed</a>
+                          
+                        </div>
+                      </div>  -->
+
+                    </td> 
+                </tr>
+                <tr class="expandable-body">
+                  <td colspan="6">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">All products</h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                        <table class="table table-info" >
+                          <thead>
+                            <tr>
+                              <th>Foto</th>
+                              <th>Last name</th>
+                              <th>First name</th>
+                              <th>Email</th>
+                              <th>Product</th>
+                              <th>Quantity</th>
+                              <th>Price</th>
+                              <th>Available</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for user in  orders.user_order %}
+                            {% if user.id == order.id %}
+                            {% for order_item in user.orderUsers %}
+                            <tr>
+                              <td style="width: auto"><img src="../../shop{{order_item.product.main_photo.url}}" width="50" alt=""/></td>
+                              <td style="width: auto">{{order.last_name}}</td>
+                              <td style="width: auto">{{order.first_name}}</td>
+                              <td style="width: auto">{{order.email}}</td>
+                              <td style="width: auto">{{order_item.product.name}}</td>
+                              <td style="width: auto">{{order_item.quantity}}</td>
+                              <td style="width: auto">$ {{order_item.price}}</td>
+                              <td style="width: auto">{{order_item.product.available}}</td>                              
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <!-- page script -->
+  <script>
+          
+          
+
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+
+    
+  </script>
+
+{% endblock javascripts %}

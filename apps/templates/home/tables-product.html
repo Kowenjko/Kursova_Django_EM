@@ -1,0 +1,263 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Tables Data {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %} 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>DataTables</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Table Product</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>   
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Table Product</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Foto</th>
+                      <th>Product name</th>
+                      <th>Category</th>
+                      <th>Brand</th>
+                      <th>Price</th>
+                      <th>Old price</th>
+                      <th>Stock</th>
+                      <th>Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      {% for product in products %}
+                    <tr>
+                      <!-- <p>{{product.main_photo.url}}</p> -->
+                      <!-- <img src="../../shop/media/products/2021/10/31/product03_5jfyEOL.png" width="50" alt=""/> -->
+                      <td>                    
+                        <img src="../../shop{{product.main_photo.url}}" width="50" alt=""/>
+                      </td>
+                      <td>{{product.name}}</td>
+                     
+                      <td>{{product.category}}</td>
+                      <td>{{product.brand}}</td>
+                      <td>{{product.price}}</td>
+                      <td>{{product.old_price}}</td>
+                      <td>{{product.stock}}</td>
+                      <td> 
+                        <div class="btn-group btn-group-sm">
+                        <a href="{% url 'home:update_product' slug=product.slug %}"   class="btn btn-info "  ><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'home:product_delete' slug=product.slug %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                      </div>
+                    </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                      <th>Foto</th>
+                      <th>Product name</th>
+                      <th>Category</th>
+                      <th>Brand</th>
+                      <th>Price</th>
+                      <th>Old price</th>
+                      <th>Stock</th>
+                      <th>Edit</th>
+                    </tr>
+                    </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <div class="modal fade" id="modal-default">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Default Modal</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form method="post" enctype="multipart/form-data" >
+                  <div class="modal-body" >
+                    
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="col-sm-12">               
+                          <!-- text input -->                  
+                            
+                            <div class="form-group">
+                              <label>Category</label><br>
+                              {{ form.category }}
+                            </div>
+                            <div class="form-group">
+                              <label>Brand</label><br>
+                              {{ form.brand }}
+                            </div>
+                            <div class="form-group">
+                              <label>Name</label><br>
+                              {{ form.name }}
+                            </div>
+                            <div class="form-group">
+                              <label>Slug</label><br>
+                              {{ form.slug }}
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputFile">Main load foto</label><br>
+                              <div class="input-group">
+                                <div class="custom-file">                            
+                                  {{ form.main_photo }}
+                                  <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                                </div>                          
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputFile">Load foto 1</label>
+                              <div class="input-group">
+                                <div class="custom-file">                            
+                                  {{ form.photo_1 }}
+                                  <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                                </div>                          
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputFile">Load foto 2</label>
+                              <div class="input-group">
+                                <div class="custom-file">                            
+                                  {{ form.photo_2 }}
+                                  <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                                </div>                          
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputFile">Load foto 3</label>
+                              <div class="input-group">
+                                <div class="custom-file">                            
+                                  {{ form.photo_3 }}
+                                  <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                                </div>                          
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label>Description</label><br>
+                              {{ form.description }}
+                            </div> 
+                            <div class="form-group">
+                              <label>Details</label><br>
+                              {{ form.details }}
+                            </div> 
+                            <div class="form-group">
+                              <label>Price</label><br>
+                              {{ form.price }}
+                            </div>                      
+                            <div class="form-group">
+                              <label>Old price</label><br>
+                              {{ form.old_price }}
+                            </div> 
+                            <div class="form-group">
+                              <label>Stock</label><br>
+                              {{ form.stock }}
+                            </div> 
+                            <div class="custom-control custom-checkbox">
+                              {{ form.available }}
+                              <label for="customCheckbox2" class="custom-control-label">Custom Checkbox </label>
+                            </div>
+                           
+                            <div class="form-group">
+                              <label>Rait</label><br>
+                              {{ form.rait }}
+                            </div>                 
+                        </div>
+                      </div>
+                    
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" name="formProduct" class="btn btn-primary">Save changes</button>
+                  </div>
+                </form>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <!-- page script -->
+  <script>
+          
+          
+
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+
+    
+  </script>
+
+{% endblock javascripts %}

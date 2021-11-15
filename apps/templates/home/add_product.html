@@ -1,0 +1,248 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Forms General {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}    
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Add Products</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Add Products</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          {% if er %}
+          <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+            {{er}}
+          </div>
+          {% endif %}
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Add Category</h3>
+            </div>
+            <div class="card-body">
+              <form method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-sm-12">              
+                    <!-- text input -->             
+                
+                      <div class="form-group">
+                        <label>Name</label><br>
+                        {{ form_category.name }}
+                      </div>
+                      <div class="form-group">
+                        <label>Slug</label><br>
+                        {{ form_category.slug }}
+                      </div>                  
+                      <div class="card-footer">
+                        <button type="submit" name="formCategory" class="btn btn-primary">Submit</button>
+                      </div>  
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Add Brand</h3>
+            </div>
+            <div class="card-body">
+              <form method="post" >
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-sm-12">              
+                    <!-- text input -->             
+                
+                      <div class="form-group">
+                        <label>Name</label><br>
+                        {{ form_brand.name }}
+                      </div>
+                      <div class="form-group">
+                        <label>Slug</label><br>
+                        {{ form_brand.slug }}
+                      </div>                  
+                      <div class="card-footer">
+                        <button type="submit" name="formBrand" class="btn btn-primary">Submit</button>
+                      </div>  
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          {% if error %}
+          <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+            {{error}}
+          </div>
+          {% endif %}
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Add Product</h3>
+            </div>
+            <div class="card-body">
+              <form method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-sm-12">               
+                    <!-- text input -->                  
+                      
+                      <div class="form-group">
+                        <label>Category</label><br>
+                        {{ form.category }}
+                      </div>
+                      <div class="form-group">
+                        <label>Brand</label><br>
+                        {{ form.brand }}
+                      </div>
+                      <div class="form-group">
+                        <label>Name</label><br>
+                        {{ form.name }}
+                      </div>
+                      <div class="form-group">
+                        <label>Slug</label><br>
+                        {{ form.slug }}
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputFile">Main load foto</label><br>
+                        <div class="input-group">
+                          <div class="custom-file">                            
+                            {{ form.main_photo }}
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                          </div>                          
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputFile">Load foto 1</label>
+                        <div class="input-group">
+                          <div class="custom-file">                            
+                            {{ form.photo_1 }}
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                          </div>                          
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputFile">Load foto 2</label>
+                        <div class="input-group">
+                          <div class="custom-file">                            
+                            {{ form.photo_2 }}
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                          </div>                          
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputFile">Load foto 3</label>
+                        <div class="input-group">
+                          <div class="custom-file">                            
+                            {{ form.photo_3 }}
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label><br>
+                          </div>                          
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Description</label><br>
+                        {{ form.description }}
+                      </div> 
+                      <div class="form-group">
+                        <label>Details</label><br>
+                        {{ form.details }}
+                      </div> 
+                      <div class="form-group">
+                        <label>Price</label><br>
+                        {{ form.price }}
+                      </div>                      
+                      <div class="form-group">
+                        <label>Old price</label><br>
+                        {{ form.old_price }}
+                      </div> 
+                      <div class="form-group">
+                        <label>Stock</label><br>
+                        {{ form.stock }}
+                      </div> 
+                      <div class="custom-control custom-checkbox">
+                        {{ form.available }}
+                        <label for="customCheckbox2" class="custom-control-label">Custom Checkbox </label>
+                      </div>
+                     
+                      <div class="form-group">
+                        <label>Rait</label><br>
+                        {{ form.rait }}
+                      </div> 
+                      
+
+                      <div class="card-footer">
+                        <button type="submit" name="formProduct" class="btn btn-primary">Submit</button>
+                      </div>  
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </section>  
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- bs-custom-file-input -->
+  <script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+  </script>
+
+{% endblock javascripts %}

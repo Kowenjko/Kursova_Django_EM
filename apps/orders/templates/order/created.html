@@ -1,0 +1,9 @@
+{% extends 'electro/base.html' %}
+{% load static %}
+{% block title %}Thank you{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Thank you</h1>
+    <p class="text-center">Your order has been successfully completed. Your order number is
+        <strong>{{ order.id }}</strong>.</p>
+{% endblock %}

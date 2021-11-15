@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>Electro {% block title %} {% endblock %}</title>
+
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+		<!-- Bootstrap -->		
+		<link  rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}"/>
+		
+		<!-- Slick -->
+		<link  rel="stylesheet" href="{% static 'shop/css/slick.css' %}"/>
+		<link  rel="stylesheet" href="{% static 'shop/css/slick-theme.css' %}"/>
+
+		<!-- nouislider -->
+		<link  rel="stylesheet" href="{% static 'shop/css/nouislider.min.css' %}"/>
+
+		<!-- Font Awesome Icon -->
+		<link rel="stylesheet" href="{% static 'shop/css/font-awesome.min.css' %}">
+
+		<!-- Custom stlylesheet -->
+		<link rel="stylesheet" href="{% static 'shop/css/style.css' %}"/>
+
+		
+    </head>
+	<body>
+		{% include 'electro/layouts/header.html' %}
+		{% include 'electro/layouts/navigation.html' %}
+		{% block content %}{% endblock %}
+		{% include 'electro/layouts/newsletter.html' %}
+		{% include 'electro/layouts/footer.html' %}
+		<!-- jQuery Plugins -->
+		<script src="{% static 'shop/js/jquery.min.js' %}"></script>
+		<script src="{% static 'shop/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'shop/js/slick.min.js' %}"></script>
+		<script src="{% static 'shop/js/nouislider.min.js' %}"></script>
+		<script src="{% static 'shop/js/jquery.zoom.min.js' %}"></script>
+		<script src="{% static 'shop/js/main.js' %}"></script>
+
+	</body>
+</html>

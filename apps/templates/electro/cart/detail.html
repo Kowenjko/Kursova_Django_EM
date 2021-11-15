@@ -1,0 +1,57 @@
+{% extends 'electro/base.html' %}
+
+{% load static %}
+{% block title %} - Cart {% endblock %}
+{% block count %} 0 {% endblock %}
+
+{% block content %}
+<h1 class="text-center" >CART</h1>  
+<hr>
+<div id="cart" class="container">
+    <table class="cart table  table-hover">
+        <thead >
+            <tr class="table-dark">
+            <th>Image</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Unit price</th>
+            <th>Price</th>
+            </tr>
+        </thead>
+       <tbody>
+           {% for item in cart %}           
+           {% with product=item.product  %}    
+               
+            <tr>
+                <td>
+                    
+                    <img src="{% if product.main_photo %}../../cart{{product.main_photo.url}}{% else %} {% static 'shop/img/placeholder-image.png' %} {% endif %}" width="70" alt="{{product.name}}">
+                </td>
+                <td>{{product.name}}</td>
+                <td>{{item.quantity}}</td>
+                <td>
+                    <a href="{% url 'cart:cart_remove' product_id=product.id %} " class='btn btn-danger'>Remove</a>
+                </td>
+                <td>{{item.price}}</td>
+                <td>{{item.total_price}}</td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th colspan=4>Product</th>
+                    <th>${{ cart.get_total_price }}</th>
+                   
+                    </tr>
+            </tfoot>
+       </tbody>
+    </table>
+    <p>
+        <a href="{% url 'shop:store' %} " class='btn btn-danger'> Continue shopping</a>
+        <a href="{% url 'orders:checkout' %} " class='btn btn-success'> Checkaut</a>
+        <!-- <a href="#' "> Checkaut</a> -->
+    </p>
+</div> 
+{% endblock %}

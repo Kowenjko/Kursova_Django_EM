@@ -1,0 +1,377 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="/static/assets/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="/static/assets/plugins/summernote/summernote-bs4.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+  
+  <div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12 d-flex justify-content-between ">
+            <!-- <h1 class="m-0 text-dark">Total top</h1> -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3 d-flex justify-content-center align-items-center">
+                <h1 class="m-0 text-dark">Total top</h1>                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>    
+            <div class="col-12 col-sm-6 col-md-3 ">
+              <div class="info-box mb-3 d-flex justify-content-center align-items-center bg-gradient-secondary">
+                <img src="static/shop/img/logo.png" alt="">              
+              </div>
+              <!-- /.info-box -->
+            </div>    
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>  
+                <div class="info-box-content">
+                  <span class="info-box-text">{{total.orders.countOrder}} item(s)</span>
+                  <span class="info-box-number">$ {{total.orders.subtotal}}</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>           
+          </div><!-- /.col -->
+        
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        
+
+          
+          <!-- /.col -->
+          
+          <!-- /.col -->
+     
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{total.stock_product}}</h3>                
+
+                <p>All product</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>              
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{total.procent}}<sup style="font-size: 20px">%</sup></h3>
+                <p>Percentage of sales</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>              
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{total.count_user}}</h3>
+
+                <p>User Registrations</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>              
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{total.orders.countOrder}}</h3>
+
+                <p>Number of products sold</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-6 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card card-danger">
+              <div class="card-header">
+                <h3 class="card-title">Top</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+<!-- Bar chart -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="far fa-chart-bar"></i>
+                  Top
+                </h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="bar-chart" style="height: 300px;"></div>
+              </div>
+  <!-- /.card-body-->
+            </div>
+
+          
+            <!-- /.card -->
+
+          </section>
+          <!-- /.Left col -->
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <section class="col-lg-6 connectedSortable">
+            <!-- Calendar -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Table top</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th style="width: auto">Name</th>
+                      <th>Quentity</th>
+                      <th>Price</th>
+                      <th>Total</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in total.sorted_top %}
+                    <tr>
+                      <td>{{item.name}}</td>
+                      <td>{{item.quantity}}</td>
+                      <td><span class="badge bg-danger">$ {{item.price}}</span></td>
+                      
+                      <td><span class="badge bg-danger">$ {{item.total_price}}</span></td>
+                      
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  {% for item in total.top_name %}
+  <div style="display: none;" id="myvar">{{ item }}</div>
+  {% endfor %}
+  </div>
+  {% for item in total.top_quantity %}
+  <div style="display: none;" id="myvar_2">{{ item }}</div>
+  {% endfor %}
+  </div>
+  
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+   
+
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- ChartJS -->
+  <script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="/static/assets/plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="/static/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="/static/assets/plugins/moment/moment.min.js"></script>
+  <script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Summernote -->
+  <script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="/static/assets/js/pages/dashboard.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>  
+  <!-- FLOT CHARTS -->
+  <script src="/static/assets/plugins/flot/jquery.flot.js"></script>
+  <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+  <script src="/static/assets/plugins/flot-old/jquery.flot.resize.min.js"></script>
+  <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+  <script src="/static/assets/plugins/flot-old/jquery.flot.pie.min.js"></script>
+
+  
+  <script type="text/javascript">
+
+
+$(function () {
+
+//-------------
+//- DONUT CHART -
+//-------------
+
+var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+
+let list_name = document.querySelectorAll("#myvar");
+let list_quantity = document.querySelectorAll("#myvar_2");
+let name=[]
+let quantity=[]
+for(let i=0;i<list_name.length;i++){
+  name.push(list_name[i].innerHTML)  
+}
+for(let i=0;i<list_quantity.length;i++){
+  quantity.push(Number(list_quantity[i].innerHTML))  
+}
+console.log(quantity)
+
+
+var donutData        = {
+  labels: name,
+  datasets: [
+    {
+      data: quantity,
+      backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+    }
+  ]
+}
+var donutOptions     = {
+  maintainAspectRatio : false,
+  responsive : true,
+}
+console.log(donutData)
+//Create pie or douhnut chart
+// You can switch between pie and douhnut using the method below.
+var donutChart = new Chart(donutChartCanvas, {
+  type: 'doughnut',
+  data: donutData,
+  options: donutOptions
+})
+
+  /*
+      * BAR CHART
+      * ---------
+      */
+
+      var bar_data = {
+        data : [[1,quantity[0]], [2,quantity[1]], [3,quantity[2]], [4,quantity[3]], [5,quantity[4]], [6,quantity[5]]],
+        bars: { show: true }
+      }
+      $.plot('#bar-chart', [bar_data], {
+        grid  : {
+          borderWidth: 1,
+          borderColor: '#f3f3f3',
+          tickColor  : '#f3f3f3'
+        },
+        series: {
+          bars: {
+            show: true, barWidth: 0.5, align: 'center',
+          },
+        },
+        colors: ['#3c8dbc'],
+        xaxis : {
+          ticks: [[1,`${quantity[0]}`], [2,`${quantity[1]}`], [3,`${quantity[2]}`], [4,`${quantity[3]}`], [5,`${quantity[4]}`], [6,`${quantity[5]}`]]
+        }
+      })
+      /* END BAR CHART */
+
+
+})
+  </script>
+
+{% endblock javascripts %}
